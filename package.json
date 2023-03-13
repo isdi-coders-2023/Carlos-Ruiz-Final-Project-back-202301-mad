@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Escaperoom administrator server",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "cross-env DEBUG=MM* PORT=4500 node ./dist/index.js -w",
     "start:mon": "cross-env DEBUG=MM* PORT=4500 nodemon ./dist/index.js",
