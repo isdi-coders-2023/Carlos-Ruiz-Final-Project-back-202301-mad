@@ -1,7 +1,6 @@
 import { Auth } from './auth';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { config } from '../db/db.config';
 
 jest.mock('jsonwebtoken');
 jest.mock('bcryptjs');
