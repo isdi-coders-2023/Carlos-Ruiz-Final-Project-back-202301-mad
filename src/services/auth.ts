@@ -1,7 +1,7 @@
 import createDebug from 'debug';
 import { PayloadToken } from './token-info.js';
 import jwt from 'jsonwebtoken';
-import { config } from '../db/db.config.js';
+import { config } from '../db/db-config.js';
 import { HTTPError } from '../errors/errors.js';
 import bcrypt from 'bcryptjs';
 
