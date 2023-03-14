@@ -1,7 +1,7 @@
 import createDebug from 'debug';
 import http from 'http';
 import { app } from './app.js';
-import { dbConnect } from './db/db.connect.js';
+import { dbConnect } from './db/db-connect.js';
 
 const debug = createDebug('MM');
 

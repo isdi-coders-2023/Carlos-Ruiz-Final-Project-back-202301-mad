@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { config } from './db.config.js';
+import { config } from './db-config.js';
 
 const { user, password, cluster, dbName } = config;
 
