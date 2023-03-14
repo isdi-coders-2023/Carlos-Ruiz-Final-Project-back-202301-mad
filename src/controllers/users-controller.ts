@@ -1,12 +1,12 @@
 import createDebug from 'debug';
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../entities/user';
-import { HTTPError } from '../errors/errors';
+import { HTTPError } from '../errors/errors.js';
 import { UserRepo } from '../repository/user/users-repo-interface';
-import { Auth } from '../services/auth';
-import { PayloadToken } from '../services/token-info';
+import { Auth } from '../services/auth.js';
+import { PayloadToken } from '../services/token-info.js';
 
-const debug = createDebug('MM:users-controller');
+const debug = createDebug('MM:users:controller');
 
 export class UserController {
   constructor(public repoUser: UserRepo<User>) {
@@ -21,7 +21,7 @@ export class UserController {
       if (!req.body.email || !req.body.password)
         throw new HTTPError(401, 'Unauthorized', 'Invalid user or password');
 
-      req.body.password = Auth.hash(req.body.password);
+      req.body.password = await Auth.hash(req.body.password);
 
       const data = await this.repoUser.create(req.body);
 

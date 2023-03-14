@@ -12,6 +12,8 @@ jest.mock('../db/db-config.js', () => ({
 }));
 
 describe('Given the users controller', () => {
+  const mockPasswd = 'test';
+
   const mockRepo = {
     create: jest.fn(),
     search: jest.fn(),
@@ -31,7 +33,7 @@ describe('Given the users controller', () => {
       const req = {
         body: {
           email: 'a@test.com',
-          password: 'test',
+          password: mockPasswd,
         },
       } as unknown as Request;
 
@@ -43,7 +45,7 @@ describe('Given the users controller', () => {
     test('then if email or/and password are WRONG, should return next', async () => {
       const req = {
         body: {
-          password: 'test',
+          password: mockPasswd,
         },
       } as unknown as Request;
 
@@ -56,7 +58,7 @@ describe('Given the users controller', () => {
       const req = {
         body: {
           email: 'a@test.com',
-          password: 'test',
+          password: mockPasswd,
         },
       } as unknown as Request;
 
@@ -71,7 +73,7 @@ describe('Given the users controller', () => {
     test('then if there is no email, it should return next', async () => {
       const req = {
         body: {
-          password: 'test',
+          password: mockPasswd,
         },
       } as unknown as Request;
 
@@ -94,7 +96,7 @@ describe('Given the users controller', () => {
       const req = {
         body: {
           email: 'a@test.com',
-          password: 'test',
+          password: mockPasswd,
         },
       } as unknown as Request;
 
@@ -107,7 +109,7 @@ describe('Given the users controller', () => {
       const req = {
         body: {
           email: 'a@test.com',
-          password: 'test',
+          password: mockPasswd,
         },
       } as unknown as Request;
 
