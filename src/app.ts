@@ -3,6 +3,7 @@ import createDebug from 'debug';
 import morgan from 'morgan';
 import cors from 'cors';
 import { CustomError } from './errors/errors.js';
+import { usersRouter } from './routers/users-router.js';
 
 const debug = createDebug('MM:App');
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 // App routers
+app.use('/users', usersRouter);
 
 app.get('/', (_req, resp) => {
   resp.json({
