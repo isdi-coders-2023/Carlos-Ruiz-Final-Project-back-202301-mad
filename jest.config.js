@@ -3,8 +3,8 @@
 export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testPathIgnorePatterns: ['dist'],
+  testPathIgnorePatterns: ['dist', 'src/entities'],
   resolver: 'jest-ts-webcompat-resolver',
   collectCoverageFrom: ['src/**/*.ts'],
-  coveragePathIgnorePatterns: ['index.ts', 'app.ts', 'routers', 'db'],
+  coveragePathIgnorePatterns: ['index.ts', 'app.ts', 'routers', 'src/entities'],
 };

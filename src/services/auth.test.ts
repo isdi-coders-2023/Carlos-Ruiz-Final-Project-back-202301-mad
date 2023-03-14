@@ -6,9 +6,6 @@ jest.mock('jsonwebtoken');
 jest.mock('bcryptjs');
 
 describe('Given the Auth class ', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
   describe('when we call the createJWT', () => {
     const payloadMock = {
       id: '1',
