@@ -1,9 +1,9 @@
 import createDebug from 'debug';
 import { User } from '../../entities/user';
-import { UserModel } from './users-mongo-model';
+import { UserModel } from './users-mongo-model.js';
 import { UserRepo } from './users-repo-interface';
 
-const debug = createDebug('MM:Repo:Users');
+const debug = createDebug('MM:users:repo');
 
 export class UsersMongoRepo implements UserRepo<User> {
   private static instance: UsersMongoRepo;
@@ -24,7 +24,7 @@ export class UsersMongoRepo implements UserRepo<User> {
     return data;
   }
 
-  async search(query: { key: string; value: unknown }): Promise<User[]> {
+  async search(query: { key: string; value: unknown }) {
     debug('search (login)');
     const data = await UserModel.find({ [query.key]: query.value });
     return data;

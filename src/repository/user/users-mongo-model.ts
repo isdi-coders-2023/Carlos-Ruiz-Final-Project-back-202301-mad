@@ -18,7 +18,6 @@ const userSchema = new Schema<User>({
   },
   avatar: {
     type: String,
-    required: true,
   },
 });
 
