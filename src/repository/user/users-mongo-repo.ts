@@ -1,6 +1,6 @@
 import createDebug from 'debug';
 import { User } from '../../entities/user';
-import { UserModel } from './users-mongo-model.js';
+import { UserModel } from './users-mongo.model.js';
 import { UserRepo } from './users-repo-interface';
 
 const debug = createDebug('MM:users:repo');
