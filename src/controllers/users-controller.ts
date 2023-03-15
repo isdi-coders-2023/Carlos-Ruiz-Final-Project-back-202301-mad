@@ -27,7 +27,7 @@ export class UserController {
 
       resp.status(201);
       resp.json({
-        data,
+        results: [data],
       });
     } catch (error) {
       next(error);
