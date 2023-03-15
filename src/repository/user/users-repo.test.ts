@@ -1,7 +1,7 @@
-import { UserModel } from './users-mongo-model';
+import { UserModel } from './users-mongo.model';
 import { UsersMongoRepo } from './users-mongo-repo';
 
-jest.mock('./users-mongo-model');
+jest.mock('./users-mongo.model');
 
 describe('Given UserMongoRepo', () => {
   const repoInstance = UsersMongoRepo.getInstance();
