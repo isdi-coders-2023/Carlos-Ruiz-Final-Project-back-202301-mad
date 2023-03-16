@@ -1,7 +1,7 @@
 import createDebug from 'debug';
 import { EscapeRoom } from '../../entities/espaceroom';
 import { Repo } from '../repo-interface';
-import { EscapeRoomModel } from './escaperoom-mongo.model';
+import { EscapeRoomModel } from './escaperoom-mongo.model.js';
 
 const debug = createDebug('MM:escaperooms:repo');
 
