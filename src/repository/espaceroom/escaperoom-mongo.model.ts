@@ -26,3 +26,17 @@ const escapeRoomSchema = new Schema<EscapeRoom>({
     type: [String],
   },
 });
+
+escapeRoomSchema.set('toJSON', {
+  transform(_document, returnedObject) {
+    returnedObject.id = returnedObject._id;
+    delete returnedObject._v;
+    delete returnedObject._id;
+  },
+});
+
+export const EscapeRoomModel = model(
+  'Espaceroom',
+  escapeRoomSchema,
+  'escaperooms'
+);
