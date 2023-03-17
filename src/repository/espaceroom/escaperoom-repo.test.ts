@@ -5,6 +5,11 @@ jest.mock('./escaperoom-mongo.model');
 
 describe('Given EscapeRoomMongoRepo', () => {
   const repoInstance = EscapeRoomMongoRepo.getInstance();
+
+  const mockPopulateFunction = (mockPopulateValue: unknown) => ({
+    exec: jest.fn().mockResolvedValue(mockPopulateValue),
+  });
+
   describe('when we call the instance function', () => {
     test('then EscapeRoomMongoRepo is INSTANTIATE', () => {
       expect(repoInstance).toBeInstanceOf(EscapeRoomMongoRepo);
@@ -25,6 +30,17 @@ describe('Given EscapeRoomMongoRepo', () => {
       (EscapeRoomModel.find as jest.Mock).mockResolvedValue(mockItem);
       const result = await repoInstance.search({ key: 'one', value: '2' });
       expect(EscapeRoomModel.create).toHaveBeenCalled();
+      expect(result).toBe(mockItem);
+    });
+  });
+  describe('when we call the readFilter method', () => {
+    test('then it should be equal to the mock value', async () => {
+      const mockItem = { theme: '2' };
+      (EscapeRoomModel.find as jest.Mock).mockImplementation(() =>
+        mockPopulateFunction(mockItem)
+      );
+      const result = await repoInstance.readFilter('2');
+      expect(EscapeRoomModel.find).toHaveBeenCalled();
       expect(result).toBe(mockItem);
     });
   });
