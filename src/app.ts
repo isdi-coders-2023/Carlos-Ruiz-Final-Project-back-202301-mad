@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { CustomError } from './errors/errors.js';
 import { usersRouter } from './routers/users-router.js';
+import { escapeRoomRouter } from './routers/escaperoom-router.js';
 
 const debug = createDebug('MM:App');
 
@@ -19,6 +20,7 @@ app.use(cors(corsOptions));
 
 // App routers
 app.use('/users', usersRouter);
+app.use('/escaperooms', escapeRoomRouter);
 
 app.get('/', (_req, resp) => {
   resp.json({
