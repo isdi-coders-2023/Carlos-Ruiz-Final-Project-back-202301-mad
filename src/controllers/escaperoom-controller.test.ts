@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { EscapeRoom } from '../entities/espaceroom';
-import { Repo } from '../repository/repo-interface';
+import { EscapeRoomRepo } from '../repository/espaceroom/escaperooms-repo-interface';
 import { EscapeRoomController } from './escaperoom-controller';
 
 describe('Given the EscapeRoom controller', () => {
   const mockRepo = {
     create: jest.fn(),
-  } as unknown as Repo<EscapeRoom>;
+    readFilter: jest.fn(),
+  } as unknown as EscapeRoomRepo<EscapeRoom>;
 
   const controller = new EscapeRoomController(mockRepo);
 
@@ -54,6 +55,30 @@ describe('Given the EscapeRoom controller', () => {
         },
       } as unknown as Request;
       await controller.createRoom(req, resp, next);
+      expect(next).toHaveBeenCalled();
+    });
+  });
+  describe('when the findRoomByTheme method is called and is OK', () => {
+    test('then if there is a themeElement is should expect status and json', async () => {
+      const req = {
+        params: {
+          themeElement: 'Fantasy',
+        },
+      } as unknown as Request;
+      await controller.findRoomByTheme(req, resp, next);
+      expect(resp.status).toHaveBeenCalled();
+      expect(resp.json).toHaveBeenCalled();
+    });
+  });
+  describe('when the findRoomByTheme method is called and is NOT OK', () => {
+    test('then if there is NO themeElelemnt is should throw error NEXT', async () => {
+      const req = {
+        params: {
+          themeElement: undefined,
+        },
+      } as unknown as Request;
+      await controller.findRoomByTheme(req, resp, next);
+
       expect(next).toHaveBeenCalled();
     });
   });

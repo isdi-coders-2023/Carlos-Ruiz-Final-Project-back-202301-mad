@@ -16,3 +16,7 @@ escapeRoomRouter.post(
   '/create',
   controllerEscapeRooms.createRoom.bind(controllerEscapeRooms)
 );
+escapeRoomRouter.get(
+  '/theme/:themeElement',
+  controllerEscapeRooms.findRoomByTheme.bind(controllerEscapeRooms)
+);

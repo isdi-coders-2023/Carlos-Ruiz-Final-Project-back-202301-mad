@@ -2,12 +2,12 @@ import createDebug from 'debug';
 import { Request, Response, NextFunction } from 'express';
 import { EscapeRoom } from '../entities/espaceroom';
 import { HTTPError } from '../errors/errors.js';
-import { Repo } from '../repository/repo-interface';
+import { EscapeRoomRepo } from '../repository/espaceroom/escaperooms-repo-interface';
 
 const debug = createDebug('MM:escaperooms:controller');
 
 export class EscapeRoomController {
-  constructor(public repoEscapeRoom: Repo<EscapeRoom>) {
+  constructor(public repoEscapeRoom: EscapeRoomRepo<EscapeRoom>) {
     this.repoEscapeRoom = repoEscapeRoom;
     debug('Controller instanced');
   }
@@ -32,6 +32,30 @@ export class EscapeRoomController {
       resp.status(201);
       resp.json({
         results: [data],
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async findRoomByTheme(req: Request, resp: Response, next: NextFunction) {
+    try {
+      debug(`GET - ${req.params.themeElement}`);
+
+      if (!req.params.themeElement)
+        throw new HTTPError(
+          400,
+          'Bad request',
+          `Filter ${req.params.themeElement} not found`
+        );
+
+      const roomFiltered = await this.repoEscapeRoom.readFilter(
+        req.params.themeElement
+      );
+
+      resp.status(201);
+      resp.json({
+        results: roomFiltered,
       });
     } catch (error) {
       next(error);
