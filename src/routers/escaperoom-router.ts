@@ -12,6 +12,10 @@ const controllerEscapeRooms = new EscapeRoomController(repoEscapeRooms);
 
 debug('Escaperooms router');
 
+escapeRoomRouter.get(
+  '/',
+  controllerEscapeRooms.findAllRooms.bind(controllerEscapeRooms)
+);
 escapeRoomRouter.post(
   '/create',
   controllerEscapeRooms.createRoom.bind(controllerEscapeRooms)
