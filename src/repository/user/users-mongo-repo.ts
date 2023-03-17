@@ -5,7 +5,7 @@ import { Repo } from '../repo-interface';
 
 const debug = createDebug('MM:users:repo');
 
-export class UsersMongoRepo implements Repo<User> {
+export class UsersMongoRepo implements Partial<Repo<User>> {
   private static instance: UsersMongoRepo;
 
   public static getInstance(): UsersMongoRepo {

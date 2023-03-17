@@ -2,14 +2,14 @@ import createDebug from 'debug';
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../entities/user';
 import { HTTPError } from '../errors/errors.js';
-import { Repo } from '../repository/repo-interface';
+import { UserRepo } from '../repository/user/users-repo-interface';
 import { Auth } from '../services/auth.js';
 import { PayloadToken } from '../services/token-info.js';
 
 const debug = createDebug('MM:users:controller');
 
 export class UserController {
-  constructor(public repoUser: Repo<User>) {
+  constructor(public repoUser: UserRepo<User>) {
     this.repoUser = repoUser;
     debug('Controller instanced');
   }
