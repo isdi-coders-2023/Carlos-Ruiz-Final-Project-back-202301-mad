@@ -4,6 +4,6 @@ export type EscapeRoom = {
   players: string;
   difficulty: 'Easy' | 'Medium' | 'Hard';
   theme: string;
-  description: string;
+  description?: string;
   images?: string[];
 };
