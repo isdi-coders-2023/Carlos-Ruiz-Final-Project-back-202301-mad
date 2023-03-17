@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../entities/user';
-import { Repo } from '../repository/repo-interface';
+import { UserRepo } from '../repository/user/users-repo-interface';
 import { Auth } from '../services/auth';
 import { UserController } from './users-controller';
 
@@ -17,7 +17,7 @@ describe('Given the users controller', () => {
   const mockRepo = {
     create: jest.fn(),
     search: jest.fn(),
-  } as unknown as Repo<User>;
+  } as unknown as UserRepo<User>;
 
   const controller = new UserController(mockRepo);
 

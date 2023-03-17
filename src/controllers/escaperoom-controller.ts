@@ -42,13 +42,20 @@ export class EscapeRoomController {
     try {
       debug(`GET - ${req.params.themeElement}`);
 
+      if (!req.params.themeElement)
+        throw new HTTPError(
+          400,
+          'Bad request',
+          `Filter ${req.params.themeElement} not found`
+        );
+
       const roomFiltered = await this.repoEscapeRoom.readFilter(
         req.params.themeElement
       );
 
       resp.status(201);
       resp.json({
-        results: [roomFiltered],
+        results: roomFiltered,
       });
     } catch (error) {
       next(error);
