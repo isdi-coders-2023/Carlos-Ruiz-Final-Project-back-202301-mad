@@ -1,11 +1,11 @@
 import createDebug from 'debug';
 import { User } from '../../entities/user';
 import { UserModel } from './users-mongo.model.js';
-import { Repo } from '../espaceroom/escaperooms-repo-interface';
+import { UserRepo } from './users-repo-interface';
 
 const debug = createDebug('MM:users:repo');
 
-export class UsersMongoRepo implements Partial<Repo<User>> {
+export class UsersMongoRepo implements Partial<UserRepo<User>> {
   private static instance: UsersMongoRepo;
 
   public static getInstance(): UsersMongoRepo {
