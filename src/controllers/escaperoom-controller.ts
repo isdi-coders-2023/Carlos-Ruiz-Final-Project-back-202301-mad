@@ -2,12 +2,12 @@ import createDebug from 'debug';
 import { Request, Response, NextFunction } from 'express';
 import { EscapeRoom } from '../entities/espaceroom';
 import { HTTPError } from '../errors/errors.js';
-import { Repo } from '../repository/espaceroom/escaperooms-repo-interface';
+import { EscapeRoomRepo } from '../repository/espaceroom/escaperooms-repo-interface';
 
 const debug = createDebug('MM:escaperooms:controller');
 
 export class EscapeRoomController {
-  constructor(public repoEscapeRoom: Repo<EscapeRoom>) {
+  constructor(public repoEscapeRoom: EscapeRoomRepo<EscapeRoom>) {
     this.repoEscapeRoom = repoEscapeRoom;
     debug('Controller instanced');
   }
