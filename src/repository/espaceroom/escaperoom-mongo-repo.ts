@@ -30,6 +30,12 @@ export class EscapeRoomMongoRepo implements UserRepo<EscapeRoom> {
     return data;
   }
 
+  async read(): Promise<EscapeRoom[]> {
+    debug('read all');
+    const data = await EscapeRoomModel.find().exec();
+    return data;
+  }
+
   async readFilter(themeElement: string): Promise<EscapeRoom[]> {
     debug('readTheme');
     const data = await EscapeRoomModel.find({ theme: themeElement }).exec();

@@ -44,4 +44,15 @@ describe('Given EscapeRoomMongoRepo', () => {
       expect(result).toBe(mockItem);
     });
   });
+  describe('when we call the read method', () => {
+    test('then it should be equal to the mock value', async () => {
+      const mockItem = { test: 'test' };
+      (EscapeRoomModel.find as jest.Mock).mockImplementation(() =>
+        mockPopulateFunction(mockItem)
+      );
+      const result = await repoInstance.read();
+      expect(EscapeRoomModel.find).toHaveBeenCalled();
+      expect(result).toBe(mockItem);
+    });
+  });
 });
