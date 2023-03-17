@@ -2,7 +2,7 @@ import createDebug from 'debug';
 import { Request, Response, NextFunction } from 'express';
 import { EscapeRoom } from '../entities/espaceroom';
 import { HTTPError } from '../errors/errors.js';
-import { Repo } from '../repository/repo-interface';
+import { Repo } from '../repository/espaceroom/escaperooms-repo-interface';
 
 const debug = createDebug('MM:escaperooms:controller');
 
@@ -32,6 +32,23 @@ export class EscapeRoomController {
       resp.status(201);
       resp.json({
         results: [data],
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async findRoomByTheme(req: Request, resp: Response, next: NextFunction) {
+    try {
+      debug(`GET - ${req.params.themeElement}`);
+
+      const roomFiltered = await this.repoEscapeRoom.readFilter(
+        req.params.themeElement
+      );
+
+      resp.status(201);
+      resp.json({
+        results: [roomFiltered],
       });
     } catch (error) {
       next(error);
