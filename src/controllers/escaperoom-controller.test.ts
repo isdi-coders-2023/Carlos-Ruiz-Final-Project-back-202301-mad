@@ -6,6 +6,7 @@ import { EscapeRoomController } from './escaperoom-controller';
 describe('Given the EscapeRoom controller', () => {
   const mockRepo = {
     create: jest.fn(),
+    read: jest.fn().mockReturnValue({ results: ['room1', 'room2'] }),
     readFilter: jest.fn(),
   } as unknown as EscapeRoomRepo<EscapeRoom>;
 
@@ -45,6 +46,7 @@ describe('Given the EscapeRoom controller', () => {
       expect(resp.json).toHaveBeenCalled();
     });
   });
+
   describe('when the createRoom method is called and is NOT OK', () => {
     test('then if there is no name it should called NEXT ERROR', async () => {
       const req = {
@@ -58,6 +60,32 @@ describe('Given the EscapeRoom controller', () => {
       expect(next).toHaveBeenCalled();
     });
   });
+
+  describe('when the findAllRooms method is called', () => {
+    test('then if everything is OK it', async () => {
+      const req = {} as unknown as Request;
+
+      await controller.findAllRooms(req, resp, next);
+
+      expect(resp.status).toHaveBeenCalled();
+      expect(resp.json).toHaveBeenCalled();
+    });
+    test('then if there is NO DATA from the repo is should throw an error', async () => {
+      const mockFindAllRepo = {
+        create: jest.fn(),
+        read: jest.fn(),
+        readFilter: jest.fn(),
+      } as unknown as EscapeRoomRepo<EscapeRoom>;
+
+      const controllerAll = new EscapeRoomController(mockFindAllRepo);
+      const req = {} as unknown as Request;
+
+      await controllerAll.findAllRooms(req, resp, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+  });
+
   describe('when the findRoomByTheme method is called and is OK', () => {
     test('then if there is a themeElement is should expect status and json', async () => {
       const req = {

@@ -38,6 +38,23 @@ export class EscapeRoomController {
     }
   }
 
+  async findAllRooms(_req: Request, resp: Response, next: NextFunction) {
+    try {
+      debug(`GET All`);
+
+      const data = await this.repoEscapeRoom.read();
+
+      if (!data) throw new HTTPError(404, 'Not found', 'Escaperooms not found');
+
+      resp.status(201);
+      resp.json({
+        results: data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async findRoomByTheme(req: Request, resp: Response, next: NextFunction) {
     try {
       debug(`GET - ${req.params.themeElement}`);
