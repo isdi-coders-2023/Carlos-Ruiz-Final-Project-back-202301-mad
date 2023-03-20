@@ -1,5 +1,6 @@
 import createDebug from 'debug';
 import { EscapeRoom } from '../../entities/espaceroom';
+import { HTTPError } from '../../errors/errors';
 import { UserRepo } from '../user/users-repo-interface';
 import { EscapeRoomModel } from './escaperoom-mongo.model.js';
 
@@ -36,9 +37,17 @@ export class EscapeRoomMongoRepo implements UserRepo<EscapeRoom> {
     return data;
   }
 
+  async readById(roomId: string): Promise<EscapeRoom> {
+    debug('read ID');
+    const data = await EscapeRoomModel.findById(roomId).exec();
+    if (!data) throw new HTTPError(404, 'Not found', 'Id not found');
+    return data;
+  }
+
   async readFilter(themeElement: string): Promise<EscapeRoom[]> {
     debug('readTheme');
     const data = await EscapeRoomModel.find({ theme: themeElement }).exec();
+    if (!data) throw new HTTPError(404, 'Not found', 'Theme not found');
     return data;
   }
 }
