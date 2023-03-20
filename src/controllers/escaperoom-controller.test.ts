@@ -7,6 +7,7 @@ describe('Given the EscapeRoom controller', () => {
   const mockRepo = {
     create: jest.fn(),
     read: jest.fn().mockReturnValue({ results: ['room1', 'room2'] }),
+    readById: jest.fn(),
     readFilter: jest.fn(),
   } as unknown as EscapeRoomRepo<EscapeRoom>;
 
@@ -82,6 +83,28 @@ describe('Given the EscapeRoom controller', () => {
 
       await controllerAll.findAllRooms(req, resp, next);
 
+      expect(next).toHaveBeenCalled();
+    });
+  });
+
+  describe('when the findRoomById method is called and is OK', () => {
+    test('then if the ID is OK, it should expect status and json', async () => {
+      const req = {
+        params: {
+          roomId: '123',
+        },
+      } as unknown as Request;
+      await controller.findRoomById(req, resp, next);
+      expect(resp.status).toHaveBeenCalledWith(201);
+      expect(resp.json).toHaveBeenCalled();
+    });
+    test('then if the ID is NOT OK, it should expect next error', async () => {
+      const req = {
+        params: {
+          roomId: undefined,
+        },
+      } as unknown as Request;
+      await controller.findRoomById(req, resp, next);
       expect(next).toHaveBeenCalled();
     });
   });
