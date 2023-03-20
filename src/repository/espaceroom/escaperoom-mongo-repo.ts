@@ -1,6 +1,6 @@
 import createDebug from 'debug';
 import { EscapeRoom } from '../../entities/espaceroom';
-import { HTTPError } from '../../errors/errors';
+import { HTTPError } from '../../errors/errors.js';
 import { UserRepo } from '../user/users-repo-interface';
 import { EscapeRoomModel } from './escaperoom-mongo.model.js';
 
