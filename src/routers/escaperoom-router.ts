@@ -21,7 +21,7 @@ escapeRoomRouter.post(
   controllerEscapeRooms.createRoom.bind(controllerEscapeRooms)
 );
 escapeRoomRouter.get(
-  '/:id',
+  '/:roomId',
   controllerEscapeRooms.findRoomById.bind(controllerEscapeRooms)
 );
 escapeRoomRouter.get(
