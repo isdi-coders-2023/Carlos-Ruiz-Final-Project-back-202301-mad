@@ -47,6 +47,7 @@ export class EscapeRoomMongoRepo implements UserRepo<EscapeRoom> {
   async readFilter(themeElement: string): Promise<EscapeRoom[]> {
     debug('readTheme');
     const data = await EscapeRoomModel.find({ theme: themeElement }).exec();
+    if (!data) throw new HTTPError(404, 'Not found', 'Theme not found');
     return data;
   }
 }
