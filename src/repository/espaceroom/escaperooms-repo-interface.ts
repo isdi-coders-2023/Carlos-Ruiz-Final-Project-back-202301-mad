@@ -4,5 +4,6 @@ export interface EscapeRoomRepo<T> {
   search(query: { key: string; value: unknown }): Promise<T[]>;
 
   read(): Promise<T[]>;
+  read(id: string): Promise<T>;
   readFilter(theme: string): Promise<T[]>;
 }
