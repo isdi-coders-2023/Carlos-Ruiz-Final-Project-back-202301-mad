@@ -37,9 +37,9 @@ export class EscapeRoomMongoRepo implements UserRepo<EscapeRoom> {
     return data;
   }
 
-  async readById(id: string): Promise<EscapeRoom> {
+  async readById(roomId: string): Promise<EscapeRoom> {
     debug('read ID');
-    const data = await EscapeRoomModel.findById(id).exec();
+    const data = await EscapeRoomModel.findById(roomId).exec();
     if (!data) throw new HTTPError(404, 'Not found', 'Id not found');
     return data;
   }
