@@ -55,6 +55,28 @@ export class EscapeRoomController {
     }
   }
 
+  async findRoomById(req: Request, resp: Response, next: NextFunction) {
+    try {
+      debug(`get by ID: ${req.params.id}`);
+
+      if (!req.params.id)
+        throw new HTTPError(
+          400,
+          'Bad request',
+          `ID ${req.params.id} not found`
+        );
+
+      const room = await this.repoEscapeRoom.readById(req.params.id);
+
+      resp.status(201);
+      resp.json({
+        results: [room],
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async findRoomByTheme(req: Request, resp: Response, next: NextFunction) {
     try {
       debug(`GET - ${req.params.themeElement}`);
