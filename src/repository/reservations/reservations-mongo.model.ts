@@ -24,7 +24,7 @@ reservationSchema.set('toJSON', {
   },
 });
 
-export const UserModel = model(
+export const ReservationModel = model(
   'Reservation',
   reservationSchema,
   'reservations'
