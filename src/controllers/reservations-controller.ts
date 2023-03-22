@@ -1,10 +1,10 @@
 import createDebug from 'debug';
 import { Request, Response, NextFunction } from 'express';
 import { Reservation } from '../entities/reservation';
-import { HTTPError } from '../errors/errors';
+import { HTTPError } from '../errors/errors.js';
 import { ReservationsRepo } from '../repository/reservations/reservations-repo-interface';
 
-const debug = createDebug('MM:escaperooms:controller');
+const debug = createDebug('MM:reservations:controller');
 
 export class ReservationController {
   constructor(public repoReservation: ReservationsRepo<Reservation>) {
@@ -97,6 +97,16 @@ export class ReservationController {
           'Bad filter request',
           `The query is incorrect: date-${req.query.reserveDate} escaperoom-${req.query.escaperoom}`
         );
+
+      const data = await this.repoReservation.readFilterByMonth(
+        req.query.reserveDate as string,
+        req.query.escaperoom as string
+      );
+
+      resp.status(201);
+      resp.json({
+        results: data,
+      });
     } catch (error) {
       next(error);
     }
