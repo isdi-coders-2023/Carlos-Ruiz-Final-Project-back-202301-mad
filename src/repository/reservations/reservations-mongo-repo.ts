@@ -4,7 +4,7 @@ import { HTTPError } from '../../errors/errors';
 import { ReservationModel } from './reservations-mongo.model';
 import { ReservationsRepo } from './reservations-repo-interface';
 
-const debug = createDebug('MM:escaperooms:repo');
+const debug = createDebug('MM:reservations:repo');
 
 export class ReservationMongoRepo implements ReservationsRepo<Reservation> {
   private static instance: ReservationMongoRepo;
