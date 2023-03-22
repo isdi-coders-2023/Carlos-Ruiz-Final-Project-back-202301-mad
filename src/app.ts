@@ -5,6 +5,7 @@ import cors from 'cors';
 import { CustomError } from './errors/errors.js';
 import { usersRouter } from './routers/users-router.js';
 import { escapeRoomRouter } from './routers/escaperoom-router.js';
+import { reservationRouter } from './routers/reservations-router.js';
 
 const debug = createDebug('MM:App');
 
@@ -21,6 +22,7 @@ app.use(cors(corsOptions));
 // App routers
 app.use('/users', usersRouter);
 app.use('/escaperooms', escapeRoomRouter);
+app.use('/reservations', reservationRouter);
 
 app.get('/', (_req, resp) => {
   resp.json({

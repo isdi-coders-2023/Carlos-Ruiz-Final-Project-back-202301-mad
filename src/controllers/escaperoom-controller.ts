@@ -83,8 +83,8 @@ export class EscapeRoomController {
 
       if (!req.params.themeElement)
         throw new HTTPError(
-          400,
-          'Bad request',
+          404,
+          'Not found',
           `Filter ${req.params.themeElement} not found`
         );
 
