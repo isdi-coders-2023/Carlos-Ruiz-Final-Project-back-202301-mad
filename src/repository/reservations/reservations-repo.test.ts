@@ -34,10 +34,10 @@ describe('Given ReservationMongoModel', () => {
       expect(ReservationModel.findByIdAndDelete).toHaveBeenCalled();
       expect(result).toBe(undefined);
     });
-    test('then if NO ID is given it throw a rejescted', () => {
+    test('then if NO ID is given it throw a rejected', () => {
       const mockReservation = null;
-      (ReservationModel.findByIdAndDelete as jest.Mock).mockResolvedValue(
-        mockReservation
+      (ReservationModel.findByIdAndDelete as jest.Mock).mockImplementation(() =>
+        mockExecFunction(mockReservation)
       );
       expect(async () => repoInstance.delete('')).rejects.toThrow();
     });
