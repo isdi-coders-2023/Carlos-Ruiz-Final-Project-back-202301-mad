@@ -27,8 +27,8 @@ describe('Given ReservationMongoModel', () => {
   describe('when we call the delete function', () => {
     test('then ReservationMongoRepo should delete the mock and receive void', async () => {
       const mockReservation = { id: '10' };
-      (ReservationModel.findByIdAndDelete as jest.Mock).mockResolvedValue(
-        mockReservation
+      (ReservationModel.findByIdAndDelete as jest.Mock).mockImplementation(() =>
+        mockExecFunction(mockReservation)
       );
       const result = await repoInstance.delete('10');
       expect(ReservationModel.findByIdAndDelete).toHaveBeenCalled();
@@ -82,7 +82,7 @@ describe('Given ReservationMongoModel', () => {
       (ReservationModel.find as jest.Mock).mockImplementation(() =>
         mockExecFunction(mockReservation)
       );
-      const result = await repoInstance.readFilterByMonth('2023-04', '123');
+      const result = await repoInstance.readFilterByMonth('2023-4', '123');
       expect(ReservationModel.find).toHaveBeenCalled();
       expect(result).toEqual(mockReservation);
     });
