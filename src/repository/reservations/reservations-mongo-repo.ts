@@ -1,7 +1,7 @@
 import createDebug from 'debug';
 import { Reservation } from '../../entities/reservation';
-import { HTTPError } from '../../errors/errors';
-import { ReservationModel } from './reservations-mongo.model';
+import { HTTPError } from '../../errors/errors.js';
+import { ReservationModel } from './reservations-mongo.model.js';
 import { ReservationsRepo } from './reservations-repo-interface';
 
 const debug = createDebug('MM:reservations:repo');
@@ -50,10 +50,10 @@ export class ReservationMongoRepo implements ReservationsRepo<Reservation> {
     roomId: string
   ): Promise<Reservation[]> {
     const regexPattern = new RegExp(`^${yearMonth}`);
-    const data = await ReservationModel.find(
-      { reserveDate: { $regex: regexPattern } },
-      { escaperoom: roomId }
-    ).exec();
+    const data = await ReservationModel.find({
+      reserveDate: { $regex: regexPattern },
+      escaperoom: roomId,
+    }).exec();
     if (!data)
       throw new HTTPError(404, 'Not found', 'month or roomId not found');
     return data;
