@@ -4,5 +4,5 @@ export interface ReservationsRepo<T> {
 
   read(): Promise<T[]>;
   readByUserId(_id: string): Promise<T[]>;
-  readByMonth(_monthYear: string): Promise<T[]>;
+  readFilterByMonth(yearMonth: string, roomId: string): Promise<T[]>;
 }

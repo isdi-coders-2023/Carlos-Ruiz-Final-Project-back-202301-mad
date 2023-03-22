@@ -32,15 +32,30 @@ export class ReservationMongoRepo implements ReservationsRepo<Reservation> {
       throw new HTTPError(404, 'Not found', 'Delete not posible: id not found');
   }
 
-  read(): Promise<Reservation[]> {
-    throw new Error('Method not implemented.');
+  async read(): Promise<Reservation[]> {
+    debug('read all');
+    const data = await ReservationModel.find().exec();
+    return data;
   }
 
-  readByUserId(_id: string): Promise<Reservation[]> {
-    throw new Error('Method not implemented.');
+  async readByUserId(id: string): Promise<Reservation[]> {
+    debug('read by id');
+    const data = await ReservationModel.find({ user: id }).exec();
+    if (!data) throw new HTTPError(404, 'Not found', 'Ids not found');
+    return data;
   }
 
-  readByMonth(_monthYear: string): Promise<Reservation[]> {
-    throw new Error('Method not implemented.');
+  async readFilterByMonth(
+    yearMonth: string,
+    roomId: string
+  ): Promise<Reservation[]> {
+    const regexPattern = new RegExp(`^${yearMonth}`);
+    const data = await ReservationModel.find(
+      { reserveDate: { $regex: regexPattern } },
+      { escaperoom: roomId }
+    ).exec();
+    if (!data)
+      throw new HTTPError(404, 'Not found', 'month or roomId not found');
+    return data;
   }
 }
