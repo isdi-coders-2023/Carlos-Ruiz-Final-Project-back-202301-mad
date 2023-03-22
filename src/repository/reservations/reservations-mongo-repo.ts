@@ -27,7 +27,7 @@ export class ReservationMongoRepo implements ReservationsRepo<Reservation> {
 
   async delete(id: string): Promise<void> {
     debug('delete');
-    const data = await ReservationModel.findByIdAndDelete(id);
+    const data = await ReservationModel.findByIdAndDelete(id).exec();
     if (!data)
       throw new HTTPError(404, 'Not found', 'Delete not posible: id not found');
   }
