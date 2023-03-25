@@ -19,3 +19,8 @@ usersRouter.patch(
   logged,
   controllerUsers.edit.bind(controllerUsers)
 );
+usersRouter.get(
+  '/profile',
+  logged,
+  controllerUsers.getId.bind(controllerUsers)
+);
