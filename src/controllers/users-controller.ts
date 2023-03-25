@@ -3,8 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { User } from '../entities/user';
 import { HTTPError } from '../errors/errors.js';
 import { UserRepo } from '../repository/user/users-repo-interface';
-import { Auth } from '../services/auth.js';
-import { PayloadToken } from '../services/token-info.js';
+import { Auth, PayloadToken } from '../services/auth.js';
 
 const debug = createDebug('MM:users:controller');
 
