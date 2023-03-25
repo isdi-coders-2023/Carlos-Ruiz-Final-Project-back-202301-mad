@@ -2,6 +2,7 @@ import createDebug from 'debug';
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../entities/user';
 import { HTTPError } from '../errors/errors.js';
+import { RequestToken } from '../interceptors/extra-request';
 import { UserRepo } from '../repository/user/users-repo-interface';
 import { Auth, PayloadToken } from '../services/auth.js';
 
@@ -60,6 +61,26 @@ export class UserController {
       resp.status(202);
       resp.json({
         results: [finalData],
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async edit(req: RequestToken, resp: Response, next: NextFunction) {
+    try {
+      debug('edit-method');
+
+      if (!req.tokenInfo.id)
+        throw new HTTPError(404, 'Not found', 'Not found guitar ID in params');
+
+      req.body.id = req.tokenInfo.id;
+
+      const data = await this.repoUser.update(req.body);
+
+      resp.status(201);
+      resp.json({
+        results: [data],
       });
     } catch (error) {
       next(error);
