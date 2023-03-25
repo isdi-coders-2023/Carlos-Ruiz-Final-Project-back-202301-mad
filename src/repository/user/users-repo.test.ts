@@ -1,10 +1,16 @@
 import { UserModel } from './users-mongo.model';
 import { UsersMongoRepo } from './users-mongo-repo';
+import { User } from '../../entities/user';
 
 jest.mock('./users-mongo.model');
 
 describe('Given UserMongoRepo', () => {
   const repoInstance = UsersMongoRepo.getInstance();
+
+  const mockExecFunction = (mockPopulateValue: unknown) => ({
+    exec: jest.fn().mockResolvedValue(mockPopulateValue),
+  });
+
   describe('when we call getInstance()', () => {
     test('then the UserMongoRepo shoul be INSTANTIATE', async () => {
       expect(repoInstance).toBeInstanceOf(UsersMongoRepo);
@@ -26,6 +32,27 @@ describe('Given UserMongoRepo', () => {
       const result = await repoInstance.search({ key: 'some', value: 'oso' });
       expect(UserModel.find).toHaveBeenCalled();
       expect(result).toEqual(mockItem);
+    });
+  });
+  describe('when the update method is used', () => {
+    test('then it should return the data searched', async () => {
+      const mockItem = { id: '2' };
+      (UserModel.findByIdAndUpdate as jest.Mock).mockImplementation(() =>
+        mockExecFunction(mockItem)
+      );
+      const result = await repoInstance.update(mockItem);
+      expect(UserModel.findByIdAndUpdate).toHaveBeenCalled();
+      expect(result).toEqual(mockItem);
+    });
+    test('then with NO DATA ID it throws error', async () => {
+      const mockUser = null;
+      const mockResp = {
+        username: '1234',
+      } as unknown as Partial<User>;
+      (UserModel.findByIdAndUpdate as jest.Mock).mockImplementation(() =>
+        mockExecFunction(mockUser)
+      );
+      expect(async () => repoInstance.update(mockResp)).rejects.toThrow();
     });
   });
 });
