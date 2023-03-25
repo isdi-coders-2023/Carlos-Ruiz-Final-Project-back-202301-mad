@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import createDebug from 'debug';
 import { ExtraRequest } from '../services/extra-request.js';
 import { HTTPError } from '../errors/errors.js';
