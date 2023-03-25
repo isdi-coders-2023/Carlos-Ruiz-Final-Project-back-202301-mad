@@ -24,6 +24,7 @@ reservationRouter.post(
 );
 reservationRouter.delete(
   '/delete/:reservationId',
+  logged,
   controllerReservations.deleteReservation.bind(controllerReservations)
 );
 reservationRouter.get(
