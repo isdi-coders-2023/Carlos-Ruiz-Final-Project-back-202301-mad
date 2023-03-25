@@ -31,6 +31,13 @@ export class UsersMongoRepo implements Partial<UserRepo<User>> {
     return data;
   }
 
+  async readId(id: string): Promise<User> {
+    debug('readID-method');
+    const data = await UserModel.findById(id).exec();
+    if (!data) throw new HTTPError(404, 'Not found', 'ID not found in readID');
+    return data;
+  }
+
   async update(user: Partial<User>) {
     debug('update user');
     const data = await UserModel.findByIdAndUpdate(user.id, user, {

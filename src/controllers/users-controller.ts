@@ -86,4 +86,24 @@ export class UserController {
       next(error);
     }
   }
+
+  async getId(req: RequestToken, resp: Response, next: NextFunction) {
+    try {
+      debug('getId');
+
+      if (!req.tokenInfo.id)
+        throw new HTTPError(498, 'Token not found', 'Token not found');
+
+      const userId = req.tokenInfo.id;
+
+      const data = await this.repoUser.readId(userId);
+
+      resp.status(202);
+      resp.json({
+        results: [data],
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

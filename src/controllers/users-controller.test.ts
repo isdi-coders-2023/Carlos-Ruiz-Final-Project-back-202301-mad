@@ -19,6 +19,7 @@ describe('Given the users controller', () => {
     create: jest.fn(),
     search: jest.fn(),
     update: jest.fn(),
+    readId: jest.fn(),
   } as unknown as UserRepo<User>;
 
   const controller = new UserController(mockRepo);
@@ -149,6 +150,32 @@ describe('Given the users controller', () => {
 
       await controller.edit(req, resp, next);
       (mockRepo.update as jest.Mock).mockReturnValue([]);
+      expect(next).toHaveBeenCalled();
+    });
+  });
+  describe('when the getId method is called', () => {
+    test('then if all is OK it should return the data', async () => {
+      const req = {
+        tokenInfo: {
+          id: '12345',
+        },
+      } as unknown as RequestToken;
+
+      await controller.getId(req, resp, next);
+      (mockRepo.readId as jest.Mock).mockReturnValue(['test']);
+      expect(mockRepo.readId).toHaveBeenCalled();
+      expect(resp.status).toHaveBeenCalled();
+      expect(resp.json).toHaveBeenCalled();
+    });
+    test('then if there is no token it calls next error', async () => {
+      const req = {
+        tokenInfo: {
+          id: undefined,
+        },
+      } as unknown as RequestToken;
+
+      await controller.getId(req, resp, next);
+      (mockRepo.readId as jest.Mock).mockReturnValue([]);
       expect(next).toHaveBeenCalled();
     });
   });

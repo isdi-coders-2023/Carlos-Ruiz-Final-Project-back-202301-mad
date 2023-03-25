@@ -28,7 +28,7 @@ reservationRouter.delete(
   controllerReservations.deleteReservation.bind(controllerReservations)
 );
 reservationRouter.get(
-  '/user/:userId',
+  '/user/',
   logged,
   controllerReservations.findByUserId.bind(controllerReservations)
 );

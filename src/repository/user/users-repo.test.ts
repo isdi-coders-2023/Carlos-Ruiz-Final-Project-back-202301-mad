@@ -34,6 +34,23 @@ describe('Given UserMongoRepo', () => {
       expect(result).toEqual(mockItem);
     });
   });
+  describe('when the readId method is used', () => {
+    test('then it should return the data searched', async () => {
+      const mockItem = { id: '2' };
+      (UserModel.findById as jest.Mock).mockImplementation(() =>
+        mockExecFunction(mockItem)
+      );
+      const result = await repoInstance.readId('2');
+      expect(UserModel.findById).toHaveBeenCalled();
+      expect(result).toEqual(mockItem);
+    });
+    test('then if ID in NOT OK', () => {
+      (UserModel.findById as jest.Mock).mockImplementation(() =>
+        mockExecFunction(undefined)
+      );
+      expect(async () => repoInstance.readId('3')).rejects.toThrow();
+    });
+  });
   describe('when the update method is used', () => {
     test('then it should return the data searched', async () => {
       const mockItem = { id: '2' };
@@ -44,7 +61,7 @@ describe('Given UserMongoRepo', () => {
       expect(UserModel.findByIdAndUpdate).toHaveBeenCalled();
       expect(result).toEqual(mockItem);
     });
-    test('then with NO DATA ID it throws error', async () => {
+    test('then with NO DATA ID it throws error', () => {
       const mockUser = null;
       const mockResp = {
         username: '1234',
