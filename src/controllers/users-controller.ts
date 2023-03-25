@@ -54,7 +54,6 @@ export class UserController {
       };
       const tokenJWT = Auth.createJWT(payload);
       const finalData = {
-        id: data[0].id,
         token: tokenJWT,
       };
 
