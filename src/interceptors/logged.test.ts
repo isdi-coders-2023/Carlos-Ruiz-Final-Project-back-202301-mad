@@ -1,5 +1,4 @@
 import { NextFunction, Response } from 'express';
-import { Auth } from '../services/auth';
 import { ExtraRequest } from '../services/extra-request';
 import { logged } from './logged';
 
