@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Reservation } from '../entities/reservation';
 import { ReservationsRepo } from '../repository/reservations/reservations-repo-interface';
+import { RequestToken } from '../interceptors/extra-request';
 import { ReservationController } from './reservations-controller';
 
 describe('Given the Reservation controller', () => {
@@ -24,28 +25,49 @@ describe('Given the Reservation controller', () => {
   const controller = new ReservationController(mockRepo);
 
   describe('when the createReservation is called', () => {
-    test('then it should call the create method of the repo', async () => {
+    test('then it should call the create method of the repo, with TOKEN', async () => {
       const req = {
+        tokenInfo: {
+          id: '1234',
+        },
         body: {
           id: 'id test',
           reserveDate: 'date test',
           user: 'user test',
           escaperoom: 'room test',
         },
-      } as unknown as Request;
+      } as unknown as RequestToken;
 
       await controller.createReservation(req, resp, next);
       expect(mockRepo.create).toHaveBeenCalled();
     });
-    test('then if the resp is NOT OK, it should call next error', async () => {
+    test('then if the resp is NOT OK, it should call next error, with TOKEN', async () => {
       const req = {
+        tokenInfo: {
+          id: '1234',
+        },
         body: {
           id: undefined,
           reserveDate: undefined,
           user: undefined,
           escaperoom: undefined,
         },
-      } as unknown as Request;
+      } as unknown as RequestToken;
+      await controller.createReservation(req, resp, next);
+      expect(next).toHaveBeenCalled();
+    });
+    test('then if theres NO TOKEN, it should call next error', async () => {
+      const req = {
+        tokenInfo: {
+          id: undefined,
+        },
+        body: {
+          id: 'id test',
+          reserveDate: 'date test',
+          user: 'user test',
+          escaperoom: 'room test',
+        },
+      } as unknown as RequestToken;
       await controller.createReservation(req, resp, next);
       expect(next).toHaveBeenCalled();
     });
@@ -120,20 +142,20 @@ describe('Given the Reservation controller', () => {
   describe('when the findByUSerId is called', () => {
     test('then it should call the readByUserId method of the repo', async () => {
       const req = {
-        params: {
-          userId: 'id test',
+        tokenInfo: {
+          id: 'id test',
         },
-      } as unknown as Request;
+      } as unknown as RequestToken;
 
       await controller.findByUserId(req, resp, next);
       expect(mockRepo.readByUserId).toHaveBeenCalled();
     });
     test('then the response status and the json are called', async () => {
       const req = {
-        params: {
-          userId: 'id test',
+        tokenInfo: {
+          id: 'id test',
         },
-      } as unknown as Request;
+      } as unknown as RequestToken;
 
       await controller.findByUserId(req, resp, next);
       expect(resp.json).toHaveBeenCalled();
@@ -141,10 +163,10 @@ describe('Given the Reservation controller', () => {
     });
     test('then when the resp is NOT OK, there is a next error', async () => {
       const req = {
-        params: {
-          userId: undefined,
+        tokenInfo: {
+          id: undefined,
         },
-      } as unknown as Request;
+      } as unknown as RequestToken;
 
       await controller.findByUserId(req, resp, next);
       expect(next).toHaveBeenCalled();

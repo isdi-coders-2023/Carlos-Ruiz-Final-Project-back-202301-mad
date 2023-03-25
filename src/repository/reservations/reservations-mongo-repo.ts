@@ -40,7 +40,9 @@ export class ReservationMongoRepo implements ReservationsRepo<Reservation> {
 
   async readByUserId(id: string): Promise<Reservation[]> {
     debug('read by id');
-    const data = await ReservationModel.find({ user: id }).exec();
+    const data = await ReservationModel.find({ user: id })
+      .populate('escaperoom', 'name players difficulty theme images')
+      .exec();
     if (!data) throw new HTTPError(404, 'Not found', 'Ids not found');
     return data;
   }

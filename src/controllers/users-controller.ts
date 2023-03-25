@@ -3,8 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { User } from '../entities/user';
 import { HTTPError } from '../errors/errors.js';
 import { UserRepo } from '../repository/user/users-repo-interface';
-import { Auth } from '../services/auth.js';
-import { PayloadToken } from '../services/token-info.js';
+import { Auth, PayloadToken } from '../services/auth.js';
 
 const debug = createDebug('MM:users:controller');
 
@@ -53,11 +52,15 @@ export class UserController {
         id: data[0].id,
         email: data[0].email,
       };
-      const token = Auth.createJWT(payload);
+      const tokenJWT = Auth.createJWT(payload);
+      const finalData = {
+        id: data[0].id,
+        token: tokenJWT,
+      };
 
       resp.status(202);
       resp.json({
-        results: [token],
+        results: [finalData],
       });
     } catch (error) {
       next(error);

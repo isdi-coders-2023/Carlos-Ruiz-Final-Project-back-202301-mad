@@ -9,6 +9,11 @@ describe('Given ReservationMongoModel', () => {
   const mockExecFunction = (mockPopulateValue: unknown) => ({
     exec: jest.fn().mockResolvedValue(mockPopulateValue),
   });
+  const mockPopulateFunction = (mockPopulateValue: unknown) => ({
+    populate: jest.fn().mockImplementation(() => ({
+      exec: jest.fn().mockResolvedValue(mockPopulateValue),
+    })),
+  });
 
   describe('when we instance the repo', () => {
     test('then ReservationMongoRepo is INSTANCE', () => {
@@ -57,7 +62,7 @@ describe('Given ReservationMongoModel', () => {
     test('then ReservationMongoRepo should return the data array', async () => {
       const mockReservation = { name: 'foo', user: '2' };
       (ReservationModel.find as jest.Mock).mockImplementation(() =>
-        mockExecFunction(mockReservation)
+        mockPopulateFunction(mockReservation)
       );
       const result = await repoInstance.readByUserId('2');
       expect(ReservationModel.find).toHaveBeenCalled();
@@ -66,7 +71,7 @@ describe('Given ReservationMongoModel', () => {
     test('then with NO ID user it throws an error', () => {
       const mockReservation = null;
       (ReservationModel.find as jest.Mock).mockImplementation(() =>
-        mockExecFunction(mockReservation)
+        mockPopulateFunction(mockReservation)
       );
       expect(async () => repoInstance.readByUserId('2')).rejects.toThrow();
     });

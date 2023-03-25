@@ -2,6 +2,7 @@ import { Router as router } from 'express';
 import createDebug from 'debug';
 import { ReservationMongoRepo } from '../repository/reservations/reservations-mongo-repo.js';
 import { ReservationController } from '../controllers/reservations-controller.js';
+import { logged } from '../interceptors/logged.js';
 
 const debug = createDebug('MM:reservations:router');
 
@@ -18,6 +19,7 @@ reservationRouter.get(
 );
 reservationRouter.post(
   '/create',
+  logged,
   controllerReservations.createReservation.bind(controllerReservations)
 );
 reservationRouter.delete(
@@ -26,6 +28,7 @@ reservationRouter.delete(
 );
 reservationRouter.get(
   '/user/:userId',
+  logged,
   controllerReservations.findByUserId.bind(controllerReservations)
 );
 reservationRouter.get(

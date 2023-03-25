@@ -6,5 +6,12 @@ export default {
   testPathIgnorePatterns: ['dist'],
   resolver: 'jest-ts-webcompat-resolver',
   collectCoverageFrom: ['src/**/*.ts'],
-  coveragePathIgnorePatterns: ['index.ts', 'app.ts', 'routers', 'src/entities'],
+  coveragePathIgnorePatterns: [
+    'index.ts',
+    'app.ts',
+    'routers',
+    'reservations-mongo.model.ts',
+    'escaperoom-mongo.model.ts',
+    'users-mongo.model.ts',
+  ],
 };

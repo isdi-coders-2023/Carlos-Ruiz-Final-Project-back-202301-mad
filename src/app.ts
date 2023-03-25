@@ -1,13 +1,15 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import createDebug from 'debug';
 import morgan from 'morgan';
 import cors from 'cors';
-import { CustomError } from './errors/errors.js';
 import { usersRouter } from './routers/users-router.js';
 import { escapeRoomRouter } from './routers/escaperoom-router.js';
 import { reservationRouter } from './routers/reservations-router.js';
+import { errorMiddleware } from './middleware/errors-middleware.js';
 
 const debug = createDebug('MM:App');
+
+debug('APP init');
 
 export const app = express();
 
@@ -21,24 +23,18 @@ app.use(cors(corsOptions));
 
 // App routers
 app.use('/users', usersRouter);
-app.use('/escaperooms', escapeRoomRouter);
 app.use('/reservations', reservationRouter);
+app.use('/escaperooms', escapeRoomRouter);
+
+app.use(errorMiddleware);
 
 app.get('/', (_req, resp) => {
   resp.json({
     info: 'Main',
-    endpoints: {},
+    endpoints: {
+      users: '/users',
+      escaperooms: '/escaperooms',
+      reservations: '/reservations',
+    },
   });
 });
-
-app.use(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (error: CustomError, _req: Request, resp: Response, _next: NextFunction) => {
-    debug('Errors middleware');
-    const status = error.statusCode || 500;
-    const statusMessage = error.statusMessage || 'Internal server error';
-    resp.status(status);
-    resp.json({ error: [{ status, statusMessage }] });
-    debug(status, statusMessage, error.message);
-  }
-);

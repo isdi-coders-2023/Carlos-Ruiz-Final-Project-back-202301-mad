@@ -1,5 +1,4 @@
 import createDebug from 'debug';
-import { PayloadToken } from './token-info.js';
 import jwt from 'jsonwebtoken';
 import { config } from '../db/db-config.js';
 import { HTTPError } from '../errors/errors.js';
@@ -7,6 +6,11 @@ import bcrypt from 'bcryptjs';
 
 const debug = createDebug('MM:Auth');
 debug('Loaded');
+
+export interface PayloadToken extends jwt.JwtPayload {
+  id: string;
+  email: string;
+}
 
 const salt = 10;
 
