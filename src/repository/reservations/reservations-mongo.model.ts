@@ -10,10 +10,12 @@ const reservationSchema = new Schema<Reservation>({
     type: Schema.Types.ObjectId,
     required: true,
   },
-  escaperoom: {
-    type: Schema.Types.ObjectId,
-    required: true,
-  },
+  escaperoom: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Espaceroom',
+    },
+  ],
 });
 
 reservationSchema.set('toJSON', {
