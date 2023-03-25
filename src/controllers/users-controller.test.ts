@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../entities/user';
+import { RequestToken } from '../interceptors/extra-request';
 import { UserRepo } from '../repository/user/users-repo-interface';
 import { Auth } from '../services/auth';
 import { UserController } from './users-controller';
@@ -17,6 +18,7 @@ describe('Given the users controller', () => {
   const mockRepo = {
     create: jest.fn(),
     search: jest.fn(),
+    update: jest.fn(),
   } as unknown as UserRepo<User>;
 
   const controller = new UserController(mockRepo);
@@ -117,6 +119,36 @@ describe('Given the users controller', () => {
       Auth.compare = jest.fn().mockResolvedValue(false);
       await controller.login(req, resp, next);
 
+      expect(next).toHaveBeenCalled();
+    });
+  });
+  describe('when the edit method is called', () => {
+    test('then if all is OK it should return the data', async () => {
+      const req = {
+        tokenInfo: {
+          id: '12345',
+        },
+        body: {
+          username: 'qwert',
+          email: 'a@test.com',
+        },
+      } as unknown as RequestToken;
+
+      await controller.edit(req, resp, next);
+      (mockRepo.update as jest.Mock).mockReturnValue(['test']);
+      expect(mockRepo.update).toHaveBeenCalled();
+      expect(resp.status).toHaveBeenCalled();
+      expect(resp.json).toHaveBeenCalled();
+    });
+    test('then if there is no token it calls next error', async () => {
+      const req = {
+        tokenInfo: {
+          id: undefined,
+        },
+      } as unknown as RequestToken;
+
+      await controller.edit(req, resp, next);
+      (mockRepo.update as jest.Mock).mockReturnValue([]);
       expect(next).toHaveBeenCalled();
     });
   });
