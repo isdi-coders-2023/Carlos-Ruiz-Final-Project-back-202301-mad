@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { Reservation } from '../entities/reservation';
 import { HTTPError } from '../errors/errors.js';
 import { ReservationsRepo } from '../repository/reservations/reservations-repo-interface';
+import { RequestToken } from '../interceptors/extra-request';
 
 const debug = createDebug('MM:reservations:controller');
 
@@ -12,11 +13,19 @@ export class ReservationController {
     debug('Controller instanced');
   }
 
-  async createReservation(req: Request, resp: Response, next: NextFunction) {
+  async createReservation(
+    req: RequestToken,
+    resp: Response,
+    next: NextFunction
+  ) {
     try {
       debug('POST: createReservation');
 
-      if (!req.body.reserveDate || !req.body.escaperoom || !req.body.user)
+      const userId = req.tokenInfo.id;
+      if (!userId) throw new HTTPError(404, 'Not found', 'Not found user id');
+
+      req.body.user = userId;
+      if (!req.body.reserveDate || !req.body.escaperoom)
         throw new HTTPError(
           400,
           'Bad request',
@@ -69,14 +78,14 @@ export class ReservationController {
     }
   }
 
-  async findByUserId(req: Request, resp: Response, next: NextFunction) {
+  async findByUserId(req: RequestToken, resp: Response, next: NextFunction) {
     try {
       debug('Get user reservations');
 
-      if (!req.params.userId)
-        throw new HTTPError(404, 'Not found', `User reservations not found`);
+      const userId = req.tokenInfo.id;
+      if (!userId) throw new HTTPError(404, 'Not found', 'Not found user id');
 
-      const data = await this.repoReservation.readByUserId(req.params.userId);
+      const data = await this.repoReservation.readByUserId(req.tokenInfo.id);
 
       resp.status(201);
       resp.json({
