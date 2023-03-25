@@ -2,7 +2,7 @@ import { NextFunction, Response } from 'express';
 import createDebug from 'debug';
 import { ExtraRequest } from '../services/extra-request.js';
 import { HTTPError } from '../errors/errors.js';
-import { Auth } from '../services/auth';
+import { Auth } from '../services/auth.js';
 
 const debug = createDebug('MM:interceptors');
 
