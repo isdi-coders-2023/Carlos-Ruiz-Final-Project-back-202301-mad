@@ -1,12 +1,12 @@
 import createDebug from 'debug';
 import { EscapeRoom } from '../../entities/espaceroom';
 import { HTTPError } from '../../errors/errors.js';
-import { UserRepo } from '../user/users-repo-interface';
 import { EscapeRoomModel } from './escaperoom-mongo.model.js';
+import { EscapeRoomRepo } from './escaperooms-repo-interface';
 
 const debug = createDebug('MM:escaperooms:repo');
 
-export class EscapeRoomMongoRepo implements UserRepo<EscapeRoom> {
+export class EscapeRoomMongoRepo implements EscapeRoomRepo<EscapeRoom> {
   private static instance: EscapeRoomMongoRepo;
 
   public static getInstance(): EscapeRoomMongoRepo {

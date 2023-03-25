@@ -1,5 +1,6 @@
 import createDebug from 'debug';
 import { User } from '../../entities/user';
+import { HTTPError } from '../../errors/errors.js';
 import { UserModel } from './users-mongo.model.js';
 import { UserRepo } from './users-repo-interface';
 
@@ -27,6 +28,15 @@ export class UsersMongoRepo implements Partial<UserRepo<User>> {
   async search(query: { key: string; value: unknown }) {
     debug('search (login)');
     const data = await UserModel.find({ [query.key]: query.value });
+    return data;
+  }
+
+  async update(user: Partial<User>) {
+    debug('update user');
+    const data = await UserModel.findByIdAndUpdate(user.id, user, {
+      new: true,
+    }).exec();
+    if (!data) throw new HTTPError(404, 'Not found', 'ID not found in update');
     return data;
   }
 }
