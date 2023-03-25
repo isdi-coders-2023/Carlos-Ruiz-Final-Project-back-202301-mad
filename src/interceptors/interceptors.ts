@@ -28,10 +28,9 @@ export abstract class Interceptors {
         );
 
       const token = authHeaderInfo.slice(7);
-
       const payloadToken = Auth.verifyJWTPayload(token);
-
       req.tokenInfo = payloadToken;
+      next();
     } catch (error) {
       next(error);
     }
