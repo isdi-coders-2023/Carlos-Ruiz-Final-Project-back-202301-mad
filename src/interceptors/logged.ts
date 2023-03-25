@@ -1,12 +1,16 @@
 import { NextFunction, Response } from 'express';
 import createDebug from 'debug';
-import { ExtraRequest } from '../services/extra-request.js';
+import { RequestToken } from './extra-request.js';
 import { HTTPError } from '../errors/errors.js';
 import { Auth } from '../services/auth.js';
 
 const debug = createDebug('MM:interceptors');
 
-export function logged(req: ExtraRequest, _resp: Response, next: NextFunction) {
+export function logged(
+  req: RequestToken,
+  _resp: Response,
+  next: NextFunction
+): void {
   try {
     debug('Logged interceptor');
 

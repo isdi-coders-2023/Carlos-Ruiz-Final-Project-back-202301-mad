@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express';
-import { ExtraRequest } from '../services/extra-request';
+import { RequestToken } from './extra-request';
 import { logged } from './logged';
 
 jest.mock('../services/auth');
@@ -7,7 +7,7 @@ jest.mock('../services/auth');
 describe('Given the interceptors class (LOGGED)', () => {
   const mockReq = {
     get: jest.fn(),
-  } as unknown as ExtraRequest;
+  } as unknown as RequestToken;
 
   const resp = {} as Response;
 
