@@ -46,8 +46,9 @@ export class ReservationController {
   async deleteReservation(req: Request, resp: Response, next: NextFunction) {
     try {
       debug('DELETE reservation');
-      if (!req.params.resevationId)
+      if (!req.params.reservationId) {
         throw new HTTPError(404, 'Not found', 'Reservation ID not found');
+      }
 
       await this.repoReservation.delete(req.params.reservationId);
 
