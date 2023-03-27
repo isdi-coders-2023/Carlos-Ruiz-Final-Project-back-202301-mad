@@ -76,17 +76,17 @@ describe('Given the Reservation controller', () => {
     test('then it should call the delete method of the repo', async () => {
       const req = {
         params: {
-          resevationId: 'id test',
+          reservationId: 'id test',
         },
       } as unknown as Request;
 
       await controller.deleteReservation(req, resp, next);
-      expect(mockRepo.delete).toHaveBeenCalled();
+      expect(mockRepo.delete).toBeCalled();
     });
     test('then it should have called the resp status and body', async () => {
       const req = {
         params: {
-          resevationId: 'id test',
+          reseRvationId: 'id test',
         },
       } as unknown as Request;
 
