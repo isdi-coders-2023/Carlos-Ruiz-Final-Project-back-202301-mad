@@ -71,8 +71,8 @@ export class UserController {
     try {
       debug('edit-method');
 
-      if (!req.tokenInfo.id)
-        throw new HTTPError(404, 'Not found', 'Not found guitar ID in params');
+      if (!req.tokenInfo || !req.tokenInfo.id)
+        throw new HTTPError(404, 'Token not found', 'Not found token');
 
       req.body.id = req.tokenInfo.id;
 
@@ -91,7 +91,7 @@ export class UserController {
     try {
       debug('getId');
 
-      if (!req.tokenInfo.id)
+      if (!req.tokenInfo || !req.tokenInfo.id)
         throw new HTTPError(498, 'Token not found', 'Token not found');
 
       const userId = req.tokenInfo.id;
