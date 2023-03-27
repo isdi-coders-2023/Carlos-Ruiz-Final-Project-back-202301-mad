@@ -21,8 +21,10 @@ export class ReservationController {
     try {
       debug('POST: createReservation');
 
+      if (!req.tokenInfo || !req.tokenInfo.id)
+        throw new HTTPError(404, 'Token not found', 'Not found token');
+
       const userId = req.tokenInfo.id;
-      if (!userId) throw new HTTPError(404, 'Not found', 'Not found user id');
 
       req.body.user = userId;
       if (!req.body.reserveDate || !req.body.escaperoom)
@@ -83,10 +85,12 @@ export class ReservationController {
     try {
       debug('Get user reservations');
 
-      const userId = req.tokenInfo.id;
-      if (!userId) throw new HTTPError(404, 'Not found', 'Not found user id');
+      if (!req.tokenInfo || !req.tokenInfo.id)
+        throw new HTTPError(404, 'Token not found', 'Not found token');
 
-      const data = await this.repoReservation.readByUserId(req.tokenInfo.id);
+      const userId = req.tokenInfo.id;
+
+      const data = await this.repoReservation.readByUserId(userId);
 
       resp.status(201);
       resp.json({
