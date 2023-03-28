@@ -52,6 +52,7 @@ describe('given app USER, we connect to mongo', () => {
         username: 'ej',
         email: 'ej@mail.com',
         password: mockpasswd,
+        avatar: '213452134',
       };
       await request(app).post('/users/register').send(simulateUser).expect(201);
     });
@@ -69,6 +70,14 @@ describe('given app USER, we connect to mongo', () => {
         password: mockpasswd,
       };
       await request(app).post('/users/login').send(simulateLogin).expect(202);
+    });
+    test('then if LOGIN is NO OK, ERROR PASSWD, it should gives status 401', async () => {
+      const mockErrorPasswd = '765';
+      const simulateLogin = {
+        email: 'test1@mail.com',
+        password: mockErrorPasswd,
+      };
+      await request(app).post('/users/login').send(simulateLogin).expect(401);
     });
     test('then if LOGIN theres NO EMAIL it should gives 401', async () => {
       const simulateLogin = {
