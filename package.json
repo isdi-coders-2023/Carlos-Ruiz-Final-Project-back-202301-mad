@@ -10,7 +10,8 @@
     "build": "tsc -w",
     "build:prod": "tsc",
     "test": "jest --watchAll --coverage",
-    "test:prod": "jest --watchAll --coverage --watchAll=false --passWithNoTests"
+    "test:prod": "jest --watchAll --coverage --watchAll=false --passWithNoTests",
+    "super:test": "jest cross-env NODE_ENV=test --watchAll --coverage --runInBand .spec."
   },
   "author": "Carlos Ruiz",
   "license": "ISC",
