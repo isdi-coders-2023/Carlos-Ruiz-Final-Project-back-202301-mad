@@ -75,10 +75,9 @@ To run the project locally, do the following:
 
 - Clone the repository
 - Run `npm install` to install dependencies
-- Create a `.env` file in the root directory and add the following environment variables:
-  - `MONGO_URI` - the connection URI for MongoDB
-  - `SECRET_KEY` - a secret key used for JWT authentication
-- Run `npm start` to start the server
+- Create a `.env` file in the root directory and add the environment variables given in `sample.env`
+- Run `npm run build` to build typeScript
+- Run `npm run start` to start the server
 
 ## License
 
